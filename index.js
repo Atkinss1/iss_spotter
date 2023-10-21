@@ -1,4 +1,4 @@
-const { fetchMyIP, fetchCoordsByIP } = require('./iss');
+const { fetchMyIP, fetchCoordsByIP, fetchISSFlyOverTimes } = require('./iss');
 // fetchMyIP takes in the local IP address of user from an API request
 fetchMyIP((error, ip) => {
   if (error) {
@@ -15,4 +15,12 @@ fetchCoordsByIP('96.52.110.15', (error, coordinates) => {
     return;
   }
   console.log('It worked! Return coordinates: ', coordinates);
+});
+
+// fetchISSFlyOverTimes takes in coords of user from an API request and determines when the ISS will fly over their location and duration of visibility
+fetchISSFlyOverTimes({ longitude: -113.4909267, latitude: 53.544389 }, (error, data) => {
+  if (error) {
+    console.log(error, null);
+  }
+  console.log(data);
 });
