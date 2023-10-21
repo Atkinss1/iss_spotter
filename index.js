@@ -1,4 +1,4 @@
-const { fetchMyIP, fetchCoordsByIP, fetchISSFlyOverTimes, nextISSTimesForMyLocation} = require('./iss');
+const { nextISSTimesForMyLocation, unixConversionPacific} = require('./iss');
 // fetchMyIP takes in the local IP address of user from an API request
 // fetchMyIP((error, ip) => {
 //   if (error) {
@@ -29,6 +29,9 @@ nextISSTimesForMyLocation((error, passTimes) => {
   if (error) {
     return console.log('It didn\'t work!', error);
   }
-  // success, print out the deets!
-  console.log(passTimes);
+  // loop through array of objects
+  for (const rotation of passTimes) {
+    let myDate = unixConversionPacific(rotation);
+    console.log(`Next pass at ${myDate} for ${rotation.duration} seconds!`);
+  }
 });
