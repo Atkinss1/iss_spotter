@@ -83,14 +83,14 @@ const fetchISSFlyOverTimes = function(coords, callback) {
       return;
     } // filter JSON file and filter for risetime and duration ISS will be visible
     const data = JSON.parse(body);
-    const { risetime, duration } = data;
-    callback(error, {risetime, duration});
+    callback(error, data.response);
   });
 };
 
 
 module.exports = {
   fetchMyIP,
-  fetchCoordsByIP
+  fetchCoordsByIP,
+  fetchISSFlyOverTimes
 };
   
