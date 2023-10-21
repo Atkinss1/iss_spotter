@@ -35,9 +35,8 @@ const fetchMyIP = function(callback) {
  */
 
 const fetchCoordsByIP = function(ip, callback) {
-  // test url not implementing Ip parameter yet
-  const url = 'http://ipwho.is/';
-  request(url, (error, response, body) => {
+  
+  request(`https://ipwho.is/${ip}`, (error, response, body) => {
     // if statusCode throws an error, deliver a message
     if (response.statusCode !== 200) {
       callback(Error(`Status code ${response.statusCode} when fetching coords. Response: ${body}`));
@@ -47,7 +46,16 @@ const fetchCoordsByIP = function(ip, callback) {
       callback(error, null);
       return;
     }
-    callback(null, body);
+    const data = JSON.parse(body);
+    // check for invalid IP
+    if (!data.success) {
+      console.log(`Success status was ${data.success}. Server message says: ${data.message} when fetching for IP ${data.ip}`);
+      return;
+    }
+    // filter JSON file for longitude/latitude
+    const { longitude, latitude } = data;
+
+    callback(null, {longitude, latitude});
   });
 };
 
