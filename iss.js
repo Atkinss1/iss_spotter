@@ -83,7 +83,7 @@ const fetchISSFlyOverTimes = function(coords, callback) {
       return;
     } // filter JSON file and filter for risetime and duration ISS will be visible
     const passes = JSON.parse(body).response;
-    callback(error, passes);
+    callback(null, passes);
   });
 };
 
@@ -116,18 +116,28 @@ const nextISSTimesForMyLocation = function(callback) {
     });
   });
 };
-/**
- * Converts unix time into pacific time displaying the weekday, month, day and year along with the time and pacific time zone.
+/** 
+ * Input: 
+ *   Array of data objects defining the next fly-overs of the ISS.
+ *   [ { risetime: <number>, duration: <number> }, ... ]
+ * Returns: 
+ *   undefined
+ * Sideffect: 
+ *   Console log messages to make that data more human readable.
+ *   Example output:
+ *   Next pass at Mon Jun 10 2019 20:11:44 GMT-0700 (Pacific Daylight Time) for 468 seconds!
  */
-const unixConversionPacific = function(unix) {
-  let myDate = new Date(unix.risetime * 1000).toLocaleString('en-US', {
-    timeZone: 'Canada/Pacific', weekday: 'long', month: 'short', day: '2-digit', year: 'numeric', timeZoneName: 'long', hour: '2-digit', minute: '2-digit', second: '2-digit'
-  });
-  return myDate;
+const printPassTimes = function(passTimes) {
+  for (const pass of passTimes) {
+    const datetime = new Date(0);
+    datetime.setUTCSeconds(pass.risetime);
+    const duration = pass.duration;
+    console.log(`Next pass at ${datetime} for ${duration} seconds!`);
+  }
 };
 
 module.exports = {
   nextISSTimesForMyLocation,
-  unixConversionPacific
+  printPassTimes
 };
   
