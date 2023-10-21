@@ -99,28 +99,35 @@ const fetchISSFlyOverTimes = function(coords, callback) {
 const nextISSTimesForMyLocation = function(callback) {
   fetchMyIP((error, ip) => {
     if (error) {
-      console.log('That didn\'t work!', error);
-      return;
+      return (error, null);
+      
     }
     fetchCoordsByIP(ip, (error, coordinates) => {
       if (error) {
-        console.log(error, null);
-        return;
+        return (error, null);
+        
       }
       fetchISSFlyOverTimes(coordinates, (error, passTimes) => {
         if (error) {
-          console.log(error, null);
+          return callback(error, null);
         }
-        callback(error, passTimes);
+        callback(null, passTimes);
       });
     });
   });
 };
+/**
+ * Converts unix time into pacific time displaying the weekday, month, day and year along with the time and pacific time zone.
+ */
+const unixConversionPacific = function(unix) {
+  let myDate = new Date(unix.risetime * 1000).toLocaleString('en-US', {
+    timeZone: 'Canada/Pacific', weekday: 'long', month: 'short', day: '2-digit', year: 'numeric', timeZoneName: 'long', hour: '2-digit', minute: '2-digit', second: '2-digit'
+  });
+  return myDate;
+};
 
 module.exports = {
-  fetchMyIP,
-  fetchCoordsByIP,
-  fetchISSFlyOverTimes,
-  nextISSTimesForMyLocation
+  nextISSTimesForMyLocation,
+  unixConversionPacific
 };
   
