@@ -70,7 +70,10 @@ const fetchCoordsByIP = function(ip, callback) {
  *     [ { risetime: 134564234, duration: 600 }, ... ]
  */
 const fetchISSFlyOverTimes = function(coords, callback) {
+
+  // API request for ISS fly over times depending on coords of user
   request(`https://iss-flyover.herokuapp.com/json/?lat=53.544389&lon=-113.4909267`, (error, response, body) => {
+    // check for statusCode errors
     if (response.statusCode !== 200) {
       callback(Error(`Status code ${response.statusCode} when fetching flyover times. Response: ${body}`));
       return;
@@ -78,7 +81,7 @@ const fetchISSFlyOverTimes = function(coords, callback) {
     if (error) {
       callback(error, null);
       return;
-    }
+    } // filter JSON file and filter for risetime and duration ISS will be visible
     const data = JSON.parse(body);
     const { risetime, duration } = data;
     callback(error, {risetime, duration});
