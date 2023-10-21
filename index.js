@@ -18,9 +18,9 @@ fetchCoordsByIP('96.52.110.15', (error, coordinates) => {
 });
 
 // fetchISSFlyOverTimes takes in coords of user from an API request and determines when the ISS will fly over their location and duration of visibility
-fetchISSFlyOverTimes({ longitude: -113.4909267, latitude: 53.544389 }, (error, data) => {
-  if (error) {
-    console.log(error, null);
-  }
-  console.log(data);
-});
+// fetchISSFlyOverTimes({ longitude: -113.4909267, latitude: 53.544389 }, (error, passTimes) => {
+//   if (error) {
+//     console.log(error, null);
+//   }
+//   console.log('It worked! Returned flyover times: ', passTimes);
+// });
